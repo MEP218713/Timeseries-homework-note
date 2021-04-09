@@ -1,0 +1,171 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\setmonofont{Consolas}%字体
+\lstset{
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``,% 英文分号中可写入中文
+	breaklines=true,
+	basicstyle=\ttfamily 
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+
+\title{Time Series HomeWork (11)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.] 给定平稳序列$ \left\lbrace X_t \right\rbrace  $的自协方差函数
+$ (\gamma_0,\gamma_1,...,\gamma_4)=(5.61,-1.1,0.23,0.43,-0.1) $.
+试为$ \left\lbrace X_t \right\rbrace $建立ARMA(2,2)模型.
+\begin{solution}
+R代码如下:
+\end{solution}
+
+1.求AR部分的系数:
+\begin{lstlisting}[language=r]
+> ga34<-matrix(c(0.43,-0.1),byrow = TRUE,nrow = 2)
+> ga34
+      [,1]
+[1,]  0.43
+[2,] -0.10
+> ga2132<-matrix(c(0.23,-1.1,0.43,0.23),byrow = TRUE,ncol = 2)
+> ga2132
+     [,1]  [,2]
+[1,] 0.23 -1.10
+[2,] 0.43  0.23
+> ga2132ni<-solve(ga2132)
+> a12<-ga2132%*%ga34
+> a12
+       [,1]
+[1,] 0.2089
+[2,] 0.1619
+
+\end{lstlisting}
+则$ a_1=0.2089 $,$ a_2=0.1619 $,
+转换为MA模型: $$Y_t=X_t-0.2089X_{t-1}-0.1619X_{t-2}=\epsilon_t+b_1\epsilon_{t-1}+b_2\epsilon_{t-2}$$
+
+
+2.求MA序列$ \left\lbrace Y_t \right\rbrace  $的自协方差函数$ \left\lbrace \gamma_y(k) \right\rbrace  $:
+\begin{lstlisting}[language=r]
+> gak0<-matrix(c(5.61,-1.1,0.23,
++                -1.1,5.61,-1.1,
++                0.23,-1.1,5.61),byrow=TRUE,ncol=3)
+> gak0
+      [,1]  [,2]  [,3]
+[1,]  5.61 -1.10  0.23
+[2,] -1.10  5.61 -1.10
+[3,]  0.23 -1.10  5.61
+> gak1<-matrix(c(-1.1,0.23,0.43,
++                5.61,-1.1,0.23,
++                -1.1,5.61,-1.1),byrow=TRUE,ncol=3)
+> gak1
+      [,1]  [,2]  [,3]
+[1,] -1.10  0.23  0.43
+[2,]  5.61 -1.10  0.23
+[3,] -1.10  5.61 -1.10
+> gak2<-matrix(c(0.23,0.43,-0.1,
++                -1.1,0.23,0.43,
++                5.61,-1.1,0.23),byrow=TRUE,ncol=3)
+> gak2
+      [,1]  [,2]  [,3]
+[1,]  0.23  0.43 -0.10
+[2,] -1.10  0.23  0.43
+[3,]  5.61 -1.10  0.23
+
+> gay0<-a012%*%gak0%*%a012t
+> gay1<-a012%*%gak1%*%a012t
+> gay2<-a012%*%gak2%*%a012t
+> gay0;gay1;gay2
+         [,1]
+[1,] 6.312563
+          [,1]
+[1,] -2.090825
+           [,1]
+[1,] -0.5287003
+\end{lstlisting}
+
+3.求MA序列$ \left\lbrace Y_t \right\rbrace  $的系数和$ \sigma^2 $:
+\begin{lstlisting}[language=r]
+## Given \gamma_0, \gamma_1, \dots, \gamma_q,
+## Solve MA(q) coefficients b_1, \dots, b_q, \sigma^2
+## Using Li Lei's algorithm.
+## Input: gms -- \gamma_0, \gamma_1, \dots, \gamma_q
+> ma.solve <- function(gms, k=100){
+	+   q <- length(gms)-1
+	+   if(q==1){
+		+     rho1 <- gms[2] / gms[1]
+		+     b <- (1 - sqrt(1 - 4*rho1^2))/(2*rho1)
+		+     s2 <- gms[1] / (1 + b^2)
+		+     return(list(b=b, s2=s2))
+		+   }
+	+   A <- matrix(0, nrow=q, ncol=q)
+	+   for(j in seq(2,q)){
+		+     A[j-1,j] <- 1
+		+   }
+	+   cc <- numeric(q); cc[1] <- 1
+	+   gamma0 <- gms[1]
+	+   gammas <- numeric(q+k)
+	+   gammas[1:(q+1)] <- gms
+	+   gamq <- gms[-1]
+	+   Gammak <- matrix(0, nrow=k, ncol=k)
+	+   for(ii in seq(k)){
+		+     for(jj in seq(k)){
+			+       Gammak[ii,jj] <- gammas[abs(ii-jj)+1]
+			+     }
+		+   }
+	+   Omk <- matrix(0, nrow=q, ncol=k)
+	+   for(ii in seq(q)){
+		+     for(jj in seq(k)){
+			+       Omk[ii,jj] <- gammas[ii+jj-1+1]
+			+     }
+		+   }
+	+   PI <- Omk %*% solve(Gammak, t(Omk))
+	+   s2 <- gamma0 - c(t(cc) %*% PI %*% cc)
+	+   b <- 1/s2 * c(gamq - A %*% PI %*% cc)
+	+   return(list(b=b, s2=s2))
+	+ }
+
+> gms<-c(gay0,gay1,gay2)
+> ma.solve(gms,k=100)
+$b
+[1] -0.4454071 -0.1012276
+
+$s2
+[1] 5.222888
+\end{lstlisting}
+
+故我们得到ARMA(2,2)模型
+$$ X_t=0.2089X_{t-1}+0.1619X_{t-2}+\epsilon_t-0.4454071\epsilon_{t-1}-0.1012276\epsilon_{t-2} ,\epsilon\sim WN(0,5.222888)$$
+
+%=================================================================%
+\end{enumerate}
+\end{document}

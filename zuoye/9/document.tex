@@ -1,0 +1,72 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\setmonofont{Consolas}%字体
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``,% 英文分号中可写入中文
+	breaklines=true,
+	basicstyle=\ttfamily 
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+
+\title{Time Series HomeWork (9)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.] 设$ \left\lbrace X_t\right\rbrace $为ARMA(1,1)序列,
+$ X_t=a_1X_{t-1}+\epsilon_t+b_1\epsilon_{t-1},\epsilon_t\sim WN(0,\sigma^2)$,求$ \gamma_0,\gamma_1,\gamma_2 $.
+\begin{solution}
+由$ \gamma_k $的递推公式可得
+\begin{equation}
+\begin{aligned}
+\gamma_0 &=a_1\gamma_1+\sigma^2(b_0\psi_0+b_1\psi_1)\\
+\gamma_1 &=a_1\gamma_0+\sigma^2b_1\psi_0\\
+\gamma_2 &=a_1\gamma_1\\
+\end{aligned}
+\end{equation}
+解得
+\begin{equation}
+	\begin{aligned}
+		\gamma_0 &=\frac{\sigma^2(1+2a_1b_1+b_1^2)}{1-a_1^2}\\
+		\gamma_1 &=\frac{\sigma^2(a_1+b_1)(1+a_1b_1)}{1-a_1^2}\\
+		\gamma_2 &=\frac{a_1\sigma^2(a_1+b_1)(1+a_1b_1)}{1-a_1^2}\\
+	\end{aligned}
+\end{equation}
+
+\end{solution}
+
+%=================================================================%
+\end{enumerate}
+\end{document}

@@ -1,0 +1,193 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	breaklines=true,
+	escapeinside=``, % 英文分号中可写入中文
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+
+\title{Time Series HomeWork (7)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.] 对AR(2)模型$ X_t=-0.1X_{t-1}+0.72X_{t-2}+\epsilon_t $,计算自相关系数$ \rho_k, k=1,2,3,4,5.$
+\begin{solution}
+	\begin{equation}
+		A(z)=1+0.1z-0.72z^2
+	\end{equation}
+A(z)的零点$ z_1=-\frac{10}{9} ,z_2=\frac{5}{4}$都在单位圆外,满足最小相位条件.
+
+Wold系数的递推公式:
+\[
+\varphi_m =
+\begin{cases}
+	1 &  m=0 ,\\
+	a_1\varphi_{m-1}+a_2\varphi_{m-2} &  m=1,2,...
+\end{cases}
+\]
+即解差分方程
+\begin{equation}
+	\varphi_{m+2}+0.1\varphi_{m+1}-0.72\varphi_m=0
+\end{equation}
+其中初始条件为$ \varphi_0=1,\varphi_1=a_1\varphi_0=-0.1 $
+解差分得$$\varphi_m=\frac{8}{17}(\frac{4}{5})^m+\frac{9}{17}(-\frac{9}{10})^m,m=1,2,...$$
+故由
+\begin{equation}
+	\gamma_k=\sum_{i=1}^{p}a_i\gamma_{k-i}=-0.1\gamma_{k-1}+0.72\gamma_{k-2},k=1,2,...
+\end{equation}
+\begin{equation}
+	\gamma_k=\sigma^2\sum_{i=0}^{\infty}\varphi_i\varphi_{i+k},k=0,1,2,...
+\end{equation}
+\begin{equation}
+	\gamma_0=\sigma^2+\sum_{i=0}^{p}a_i\varphi_i=\sigma^2-0.1\varphi_1+0.72\varphi_2
+\end{equation}
+有
+
+\begin{equation}
+\begin{aligned}
+	\rho_k &=\sum_{i=1}^{p}a_i\rho_{k-i}\\
+	&=-0.1\rho_k+0.72\rho_{k-1}\\
+	&=\frac{1}{\gamma_0}[-0.1\gamma_k+0.72\gamma_{k-1}]\\
+	&=\frac{1}{\sigma^2-0.1\varphi_1+0.72\varphi_2}[-0.1\sigma^2\sum_{i=0}^{\infty}\varphi_i\varphi_{i+k}+0.72\sigma^2\sum_{i=0}^{\infty}\varphi_i\varphi_{i+k-1}]\\
+\end{aligned}
+\end{equation}
+\end{solution}
+
+
+\item[2.]对可逆MA(2)序列
+\begin{equation}
+	X_t=\epsilon_t+b_1\epsilon_{t-1}+b_2\epsilon_{t-2}, \epsilon_t\in\sim WN(0,\sigma^2)
+\end{equation}
+1. 计算它的偏相关系数$ a_{1,1},a_{2,2},a_{3,3} $.
+
+2. 该MA(2)序列具有p(某一整数值)后截尾性吗?
+\begin{solution}
+由定义,
+\begin{equation}
+\begin{aligned}
+a_{n,n} 
+&= corr[X_1-L(X_1|X_2,...,X_n),X_{n+1}-L(X_{n+1}|X_2,...,X_n)]\\
+&= corr[X_1-arg\min\mathbb{E}(X_1-\hat{X_1})^2,X_{n+1}-arg\min\mathbb{E}(X_{n+1}-\hat{X_{n+1}})^2]\\
+&= [(var(X_2,...,X_n)^T)^{-1}\cdot cov((X_2,...,X_n)^T,X_1)]^T(X_2,...,X_n)^T\\
+&= [(var(X_2,...,X_n)^T)^{-1}\cdot (\gamma_1,...,\gamma_{n-1})^T]^T(X_2,...,X_n)^T\\
+&= [\Gamma_{n-1}^{-1}\cdot (\gamma_1,...,\gamma_{n-1})^T]^T(X_2,...,X_n)^T\\ 
+\end{aligned} 
+\end{equation}
+而
+\begin{equation}
+\begin{aligned}
+\gamma_k=\sigma^2\sum_{i=0}^{q-k}b_ib_{i+k}
+\end{aligned} 
+\end{equation}
+
+得
+\begin{equation}
+\begin{aligned}
+\gamma_0
+= \sigma^2\sum_{i=0}^{q}b_i^2=(1+b_1^2+b_2^2)\sigma^2,\;\gamma_1
+= \sigma^2\sum_{i=0}^{q-1}b_ib_{i+1}=(b_1+b_1b_2)\sigma^2
+\end{aligned} 
+\end{equation}
+
+\begin{equation}
+	\begin{aligned}
+		\gamma_2
+		&= \sigma^2\sum_{i=0}^{q-2}b_ib_{i+2}=b_2\sigma^2,\;\;\gamma_3=\gamma_4=...= 0
+	\end{aligned} 
+\end{equation}
+
+故
+\begin{equation}
+	\begin{aligned}
+		a_{1,1}=corr[X_1,X_2]=\rho_1=\frac{\gamma_1}{\gamma_0}=\frac{1+b_1^2+b_2^2}{b_1+b_1b_2}
+	\end{aligned} 
+\end{equation}
+同理
+\begin{equation}
+	\begin{aligned}
+		a_{2,2}
+		&=corr[X_1-L(X_1|X_2),X_3-L(X_2|X_2)]\\
+		&=corr[X_1-(b_1+b_1b_2)X_2,X_3-X_2]\\
+		&=corr(X_1X_3)-(b_1+b_1b_2)corr(X_2X_3)-corr(X_2X_1)+(b_1+b_1b_2)corr(X_2^2)\\
+		&=\rho_2-(b_1+b_1b_2-1)\rho_1+b_1+b_1b_2\\
+		&=\frac{b_2}{b_1+b_1b_2}-(b_1+b_1b_2-1)\frac{1+b_1^2+b_2^2}{b_1+b_1b_2}+(b_1+b_1b_2)\\
+	\end{aligned} 
+\end{equation}
+
+\begin{equation}
+	\begin{aligned}
+	\begin{split}
+		a_{3,3}
+		&=corr[X_1-L(X_1|X_2,X_3),X_4-L(X_3|X_2,X_3)]\\
+		&=corr[X_1-\frac{(\gamma_0\gamma_1-\gamma_2\gamma_1)X_2-(\gamma_1^2-\gamma_2\gamma_0)X_3}{\gamma_0^2-\gamma_1^2},X_4-X_3]\\
+		&=\rho_3-\rho_2
+		-\frac{\gamma_0\gamma_1-\gamma_2\gamma_1}{\gamma_0^2-\gamma_1^2}\rho_2
+		+\frac{\gamma_1^2-\gamma_2\gamma_0}{\gamma_0^2-\gamma_1^2}\rho_1
+		+\frac{\gamma_0\gamma_1-\gamma_2\gamma_1}{\gamma_0^2-\gamma_1^2}\rho_1
+		-\frac{\gamma_1^2-\gamma_2\gamma_0}{\gamma_0^2-\gamma_1^2}\rho_0\\
+		&= -\frac{b_2}{b_1+b_1b_2}-\frac{b_1+b_1^3+b_1^3b_2+b_1b_2^3}{(1+b_1^2+b_2^2)^2-(b_1+b_1b_2)^2}\frac{1+b_1^2+b_2^2-b_2}{b_1+b_1b_2}\\
+		&+\frac{(b_1+b_1b_2)^2-b_2(1+b_1^2+b_2^2)}{(1+b_1^2+b_2^2)^2-(b_1+b_1b_2)^2}
+		(\frac{1+b_1^2+b_2^2}{b_1+b_1b_2}-1)
+	\end{split}
+	\end{aligned} 
+\end{equation}
+显然该MA(2)序列不具有p(某一整数值)后截尾性,因为$ a_{n,n}=\frac{D_n}{D} $,其中
+\[
+\mathbf{D} = \left(
+\begin{array}{cccccc}
+	1      & \rho_1 & \rho_2 &0     & \ldots & 0\\
+	\rho_1 & 1      & \rho_1 &\rho_2& \ldots & 0\\
+	\rho_2 & \rho_1 & 1      & \rho_1& \ldots & 0\\
+	\vdots & \vdots &\vdots &\vdots & \ddots & \vdots\\
+	0 & 0& 0& 0 & \ldots & 1\\
+\end{array} \right)
+\]
+\[
+\mathbf{D_n} = \left(
+\begin{array}{cccccc}
+	1      & \rho_1 & \rho_2 &0     & \ldots & \rho_1\\
+	\rho_1 & 1      & \rho_1 &\rho_2& \ldots & \rho_2\\
+	\rho_2 & \rho_1 & 1      & \rho_1& \ldots & 0\\
+	\vdots & \vdots &\vdots &\vdots & \ddots & \vdots\\
+	0 & 0& 0& 0 & \ldots & 0\\
+\end{array} \right)
+\]
+都满秩,即分子分母都不可能为0.
+\end{solution}
+
+%=================================================================%
+\end{enumerate}
+\end{document}

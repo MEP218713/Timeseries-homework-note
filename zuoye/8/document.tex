@@ -1,0 +1,102 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\setmonofont{Consolas}%字体
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``,% 英文分号中可写入中文
+	breaklines=true,
+	basicstyle=\ttfamily 
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+
+\title{Time Series HomeWork (8)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.] 对MA(2)模型$ X_t=\epsilon_t-0.66\epsilon_{t-1}+0.765\epsilon_{t-2} $,$ \left\lbrace \epsilon_t \right\rbrace  $是WN(0,4),求$ \gamma_0,\gamma_1,\gamma_2 $和谱密度.
+\begin{solution}
+由
+\begin{equation}
+\gamma_k=\sigma^2\sum_{i=0}^{q-k}b_ib_{i+k}
+\end{equation}
+得
+\begin{equation}
+\begin{aligned}
+\gamma_0 &=4(b_0^2+b_1^2+b_2^2)=8.0833\\
+\gamma_1 &=4(b_0b_1+b_1b_2)=-4.6596\\
+\gamma_2 &=4b_0b_2=3.06\\
+\end{aligned}
+\end{equation}
+谱密度:
+\begin{equation}
+	\begin{aligned}
+		f(\lambda) =\frac{\sigma^2}{2\pi}|\sum_{j=0}^{2}b_je^{ji\lambda}|^2
+		=\frac{4}{2\pi}|1-0.66e^{i\lambda}+0.765e^{2i\lambda}|^2
+	\end{aligned}
+\end{equation}
+
+\end{solution}
+
+
+\item[2.]已知平稳序列的自协方差函数
+\begin{equation}
+	(\gamma_0,\gamma_1,\gamma_2)=(12.4168,-4.7520,5.2000),\gamma_k=0,k\geq 3.
+\end{equation}
+试为这个平稳序列建立MA(2)模型.
+\begin{lstlisting}[language=R]
+> library(BB)
+> fun <- function(x) #方程组求解函数
++   { 
+	+   f <- numeric(length(x)) 
+	+   f[1] <-  x[3]*(x[1]*x[1]+x[2]*x[2])-12.4168
+	+   f[2] <-  x[3]*(x[1]*x[2]+x[1])+4.7520
+	+   f[3] <-  x[3]*x[2]-5.2
+	+   f 
+	+ } 
+> startx <- c(1,2,3)
+> result = dfsane(startx,fun,control=list(maxit=2500,trace = FALSE))
+> theta = result$par
+> theta
+[1] -0.6290429  2.2086927  2.3543338
+#x[1]=-0.6290429为b_1
+#x[2]=2.2086927为b_2
+#x[3]=2.3543338为sigma^2
+\end{lstlisting}
+
+
+
+%=================================================================%
+\end{enumerate}
+\end{document}

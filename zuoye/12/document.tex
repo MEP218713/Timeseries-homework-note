@@ -1,0 +1,85 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\setmonofont{Consolas}%字体
+\lstset{
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``,% 英文分号中可写入中文
+	breaklines=true,
+	basicstyle=\ttfamily 
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+
+\title{Time Series HomeWork (12)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.] 假设时间序列服从AR(2)过程
+$$X_t=a_1X_{t-1}+a_2X_{t-2}+\epsilon_t,\left\lbrace \epsilon_t\right\rbrace \sim WN(0,\sigma^2)$$
+其样本自协方差系数$$\hat{\gamma}_0=1382.2,\hat{\gamma}_1=1114.4,\hat{\gamma}_2=591.73,\hat{\gamma}_3=96.216$$
+试用这些估计值给出$ a_1,a_2,\sigma^2 $的yule-walker估计,给出$ a_1,a_2 $的95\%置信区间.
+\begin{solution}
+R代码如下:
+\end{solution}
+
+\begin{lstlisting}[language=r]
+> g12<-matrix(c(1114.4,591.73),byrow = TRUE,ncol=1)
+> g0110<-matrix(c(1382.2,591.73,591.73,1382.2),byrow = TRUE,ncol=2)
+> g0110n<-solve(g0110)
+> a12<-g0110n%*%g12
+> a12
+          [,1]
+[1,] 0.7627729
+[2,] 0.1015587
+> sigma2<-1382.2-t(a12)%*%g12
+> sigma2
+         [,1]
+[1,] 472.0706
+
+#==============求sigmajj=================#
+> sigma2<-as.numeric(sigma2)   
+> sigmajj<-sigma2*g0110n
+> sigmajj
+           [,1]       [,2]
+[1,]  0.4181775 -0.1790249
+[2,] -0.1790249  0.4181775
+\end{lstlisting}
+故$$ \hat{a}_1= 0.7627729,\hat{a}_2=0.1015587,\sigma^2=472.0706$$
+
+设$ x_1, x_2, ..., x_N  $为观测数据,于是$ a_j $ 的近似
+95\% 置信区间为$$ [\hat{a}_j-1.96\sqrt{\sigma_{jj/N}},\hat{a}_j+1.96\sqrt{\sigma_{jj/N}}]$$
+i.e.
+$$[0.7627729-1.96\sqrt{0.4181775/N},0.7627729-1.96\sqrt{0.4181775/N}]$$
+$$[0.1015587-1.96\sqrt{0.4181775/N},0.1015587-1.96\sqrt{0.4181775/N}]$$
+%=================================================================%
+\end{enumerate}
+\end{document}

@@ -1,0 +1,107 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``, % 英文分号中可写入中文
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+
+\title{Time Series HomeWork (5)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.]求齐次差分方程$ X_t=\sqrt{2}X_{t-1}-X_{t-2} $的通解.
+\begin{solution}
+特征多项式为
+\begin{equation}
+A(x)=1-\sqrt{2}x+x^2
+\end{equation}
+有两个复根:$ \frac{\sqrt{2}}{2}(1+i) $和$ \frac{\sqrt{2}}{2}(1-i) $.则$ [\frac{\sqrt{2}}{2}(1+i)]^{-t} $和$[\frac{\sqrt{2}}{2}(1-i)]^{-t} $为方程的两个解.
+
+通解为
+\begin{equation}
+X_t=U_1[\frac{\sqrt{2}}{2}(1+i)]^{-t}+U_2[\frac{\sqrt{2}}{2}(1-i)]^{-t},\;t\in\mathbb{Z}
+\end{equation}
+其中r.v. $ U_1,U_2 $为由$ \left\lbrace X_t\right\rbrace  $的初值$X_0,X_1 $唯一决定.
+\end{solution}
+
+\item[2.]设$ \epsilon_t \sim WN(0,\sigma^2)$,现有一阶非齐次差分方程方程$ X_t-0.5X_{t-1}=\epsilon_t $.
+\begin{enumerate}
+	\item[1)]判断并证明$ X_t^{(0)}=\sum_{j=0}^{\infty }(0.5)^j \epsilon_{t-j} $是否为上述非齐次差分方程的一个特定解?
+	\item[2)]如上定义的$  X_t^{(0)} $是(弱)平稳序列吗?为啥?
+	\item[3)]求出上述一阶非齐次差分方程的通解$ X_t $?并且写出当$ t\rightarrow\infty $时,该通解$ X_t $的收敛性质?
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+	\item[1)]是.证明如下:
+	
+	方程的特征多项式为
+\begin{equation}
+		A(x)=1-0.5x
+\end{equation}
+则
+\begin{equation}
+\begin{aligned}
+	A(\mathcal{B})(X_t- X_t^{(0)})&=(1-0.5\mathcal{B})(X_t- X_t^{(0)})\\
+	&=(1-0.5\mathcal{B})(0.5X_{t-1}+\epsilon_t-\sum_{j=0}^{\infty }(0.5)^j \epsilon_{t-j} )\\
+	&=0.5X_{t-1}+\epsilon_t-\sum_{j=0}^{\infty }(0.5)^j \epsilon_{t-j}-0.25X_{t-2}-0.5\epsilon_{t-1}+0.5\sum_{j=0}^{\infty }(0.5)^j \epsilon_{t-j-1}\\
+	&=0.5X_{t-1}-0.25X_{t-2}-\sum_{j=1}^{\infty }(0.5)^j \epsilon_{t-j}+0.5\sum_{j=1}^{\infty }(0.5)^j \epsilon_{t-j-1}\\
+	&=0.5X_{t-1}-0.25X_{t-2}-0.5\epsilon_{t-1}\\
+	&=0.5\epsilon_{t-1}-0.5\epsilon_{t-1}\\
+	&=0\\
+\end{aligned}
+\end{equation}
+其中$ t\in\mathbb{Z} $
+
+	\item[2)]如上定义的$  X_t^{(0)} $是(弱)平稳序列.因为为零均值同方差的白噪声线性组合,其实系数列$ \sum_{j=0}^{\infty }(0.5)^j $平方可和,故$  X_t^{(0)} $为线性平稳序列.
+	
+	\item[3)]方程的特征多项式为
+	\begin{equation}
+		A(x)=1-0.5x
+	\end{equation}
+有单根$ x=2 $.那么$ 2^{-t} $为方程的解.
+
+通解为
+\begin{equation}
+	X_t=X_t^{(0)}+U2^{-1}=\sum_{j=0}^{\infty }(0.5)^j \epsilon_{t-j}+U2^{-1},\;t\in\mathbb{Z}
+\end{equation}
+其中r.v. $ U$为由$ \left\lbrace X_t\right\rbrace  $的初值$X_0 $唯一决定.
+
+当$ t\rightarrow\infty $时,该通解$ X_t $的收敛到特解$\sum_{j=0}^{\infty }(0.5)^j \epsilon_{\infty-j}=\epsilon_{\infty}\sum_{j=0}^{\infty }(0.5)^j = \epsilon_{\infty}*0=0$
+\end{enumerate}
+\end{solution}
+%=================================================================%
+\end{enumerate}
+\end{document}

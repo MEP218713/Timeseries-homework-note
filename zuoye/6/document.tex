@@ -1,0 +1,110 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``, % 英文分号中可写入中文
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+
+\title{Time Series HomeWork (6)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.]$ X_t=\frac{1}{6}X_{t-1}+\frac{1}{6}X_{t-2}+\epsilon_t $, $ \left\lbrace \epsilon_t\right\rbrace \sim WN(0,0.25) $
+
+求它的平稳解以及自协方差函数$ \gamma_k $
+\begin{solution}
+平稳解的一般形式为:
+\begin{equation}
+X_t=\sum_{j=0}^{\infty}\psi_j\epsilon_{t-j}
+\end{equation}
+先只需确定$ \psi_j $.由题目可知$ p=2 $,$ a_1=a_2=\frac{1}{6}$.而
+\[
+\psi_k =
+\begin{cases}
+	0 &  k<0 \\
+	1 &  k=0 \\
+	\sum_{j=1}^p a_j \psi_{k-j} & k\geq 1
+\end{cases}
+\]
+
+当$ k\geq 1 $时,$ \psi_k=\frac{1}{6}(\psi_{k-1}+\psi_{k-2}) $,解该差分方程得
+\begin{equation}
+\psi_k=\frac{3}{5}(\frac{1}{2})^k+\frac{2}{5}(\frac{-1}{3})^k 
+\end{equation}
+故平稳解为:
+\begin{equation}
+	X_t=\sum_{j=0}^{\infty}\left[ \frac{3}{5}(\frac{1}{2})^j+\frac{2}{5}(\frac{-1}{3})^j \right] \epsilon_{t-j}
+\end{equation}
+自协方差函数$ \gamma_k $为:
+\begin{equation}
+\begin{aligned}
+\gamma_k &= \sigma^2\sum_{j=1}^{\infty} \psi_j\psi_{j+k}\\
+&= 0.25\sum_{j=1}^{\infty} \left[ \frac{3}{5}(\frac{1}{2})^j+\frac{2}{5}(\frac{-1}{3})^j \right]\left[ \frac{3}{5}(\frac{1}{2})^{j+k}+\frac{2}{5}(\frac{-1}{3})^{j+k} \right]\\
+&= \frac{1}{100}\left[ 3(\frac{1}{2})^{k-2}+\frac{4}{7}(\frac{-1}{3})^{k-2}+\frac{9}{7}(\frac{1}{2})^{k-2}+2(\frac{-1}{3})^{k-2}\right] 
+\end{aligned}
+\end{equation}
+\end{solution}
+\item[2.]设$ \left\lbrace \epsilon_t \right\rbrace  $是$ WN(\mu,\sigma^2) $, $ a_1,a_2,...,a_p $满足最小相位条件.求非中心化AR(p)模型:
+\begin{equation}
+X_t=a_0+\sum_{j=1}^{p}a_jX_{t-j}+\epsilon_t\;,t\in\mathbb{Z}
+\end{equation}
+的平稳解和通解.
+\begin{solution}
+\begin{equation}
+\begin{aligned}
+X_t &= a_0+\sum_{j=1}^{p}a_jX_{t-j}+\epsilon_t\\
+&= \sum_{j=1}^{p}a_jX_{t-j}+a_0+\epsilon_t
+\end{aligned}
+\end{equation}
+而$ 	A(\mathcal{B})X_t=\epsilon_t+a_0 $,故
+\begin{equation}
+\begin{aligned}
+X_t &= A^{-1}(\mathcal{B})A(\mathcal{B})X_t\\
+&= A^{-1}(\mathcal{B})(\epsilon_t+a_0)\\
+&= \sum_{j=0}^{\infty}\psi_j\epsilon_{t-j}+a_0\\
+\end{aligned}
+\end{equation}
+上式即为平稳解.
+
+通解为:
+\begin{equation}
+	X_t=a_0+\sum_{j=0}^{\infty}\psi_j\epsilon_{t-j}+\sum_{j=1}^{k}\sum_{l=0}^{r(j)-1}U_{l,j}t^lz_j^{-t},t\in\mathbb{Z}
+\end{equation}
+\end{solution}
+
+%=================================================================%
+\end{enumerate}
+\end{document}

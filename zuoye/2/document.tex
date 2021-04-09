@@ -1,0 +1,74 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``, % 英文分号中可写入中文
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+\newcommand{\Sum}[3][i]{\sum\limits_{#1=#2}^{#3}}
+\newcommand{\Int}[2]{\int_{#1}^{#2}}
+\newcommand{\Sample}[3][X]{{#1}_{#2},\dotsi ,{#1}_{#3}}
+\newcommand{\Samiid}[4][X]{{#1}_{#2},\dotsi ,{#1}_{#3}~iid\backsim {#4}}
+\newcommand{\norm}[1]{\left\Vert #1\right\Vert_{\infty}}
+\newcommand{\diff}[3]{\frac{\partial^{#3}{#1}}{\partial {#2}^{#3}}}
+\newcommand{\abs}[1]{\left| {#1}\right|}
+\newcommand{\normdis}[2]{N(#1,{#2}^2)}
+
+\title{Time Series HomeWork (2)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.]设时间序列$\left\lbrace  X_t\right\rbrace=\left\lbrace X_t:t\in\mathbb{Z}\right\rbrace$满足：
+
+(1)对任何$t\in\mathbb{Z},\mathbb{E}X_t^2<\infty$;\\
+(2)对任何$t\in\mathbb{Z},\mathbb{E}X_t=\mu$;\\
+(3)对任何$t,s\in\mathbb{Z},\mathbb{E}X_tX_s=b_{t-s}$.
+
+证明$\left\lbrace  X_t\right\rbrace$是平稳时间序列，并求它的自协方差函数。
+\begin{solution}	
+	因为对$t,s\in\mathbb{Z}$,
+	\begin{equation}
+	\begin{aligned}
+	\gamma_{t-s}&=\mathbb{E}[(X_t-\mu)(X_s-\mu)]\\
+	&=\mathbb{E}[X_tX_s]-\mu^2\\
+	&=b_{t-s}-\mu^2
+	\end{aligned}
+	\end{equation}
+depends only on $\mid t-s\mid$, 再由题目条件(1)(2)可知，$\left\lbrace  X_t\right\rbrace$是平稳时间序列。
+\end{solution}
+%=================================================================%
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,91 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``, % 英文分号中可写入中文
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem*{proofi}{证}
+\newtheorem{practice}{题}
+\newcommand{\Sum}[3][i]{\sum\limits_{#1=#2}^{#3}}
+\newcommand{\Int}[2]{\int_{#1}^{#2}}
+\newcommand{\Sample}[3][X]{{#1}_{#2},\dotsi ,{#1}_{#3}}
+\newcommand{\Samiid}[4][X]{{#1}_{#2},\dotsi ,{#1}_{#3}~iid\backsim {#4}}
+\newcommand{\norm}[1]{\left\Vert #1\right\Vert_{\infty}}
+\newcommand{\diff}[3]{\frac{\partial^{#3}{#1}}{\partial {#2}^{#3}}}
+\newcommand{\abs}[1]{\left| {#1}\right|}
+\newcommand{\normdis}[2]{N(#1,{#2}^2)}
+
+\title{Time Series HomeWork (4)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.]对例2.2中的调和平稳序列求极限
+\begin{equation}
+\lim_{N\rightarrow\infty}\frac{1}{N}\sum_{t=1}^{N}X_t
+\end{equation}
+\begin{proofi}
+由例2.2知$X_t=b \cos(at+U),t\in\mathbb{Z}$,
+其中r.v U在$(-\pi,\pi)$内均匀分布.\\
+令$Y_t=U$，显然$\left\lbrace Y_t\right\rbrace $为严平稳遍历时间序列.\\
+由定理4.1(2),$X_t=\Phi (Y_{t+1},...,Y_{t+m})=b \cos(at+U)$也是严平稳遍历序列
+故由定理4.1(1),
+\begin{equation}
+\lim_{N\rightarrow\infty}\frac{1}{N}\sum_{t=1}^{N}X_t=\mathbb{E}X_1=\int_{-\pi}^{\pi}b\cos(at+U)=0,a.s.
+\end{equation}
+\end{proofi}
+
+\item[2.]设$\left\lbrace X_t\right\rbrace $是严平稳序列，对多元函数$\varphi(x_1,...,x_m)$,证明
+$$Y_t=\varphi (X_{t+1},..,X_{t+m}),t\in\mathbb{Z}$$
+是严平稳序列。
+\begin{proofi}
+由于$\left\lbrace X_t\right\rbrace $是严平稳序列，故对$\forall n\in\mathbb{N}_+,k\in\mathbb{Z}$,
+$$\mathbb{P}(X_1\leq x_1,...,X_n\leq x_n)=\mathbb{P}(X_{1+k}\leq x_{1+k},...,X_{n+k}\leq x_{n+k})$$
+故对多元函数$\varphi(x_1,...,x_m)$，
+\begin{equation}
+\begin{aligned}
+\mathbb{P}(Y_1\leq y_1,...,Y_n\leq y_n) 
+&= \mathbb{P}(\varphi(X_{1+1},...,X_{1+m})\leq y_1,...,\varphi(X_{n+1},...,X_{n+m})\leq y_n)\\
+&= \mathbb{P}((X_{1+1},...,X_{1+m})\leq\varphi^{-1} (y_1),...,(X_{n+1},...,X_{n+m})\leq \varphi(y_n))\\
+&= \mathbb{P}((X_{1+1+k},...,X_{1+m+k})\leq\varphi^{-1} (y_{1+k}),...,(X_{n+1+k},...,X_{n+m+k})\leq \varphi(y_{n+k}))\\
+&= \mathbb{P}(\varphi(X_{1+1+k},...,X_{1+m+k})\leq y_{1+k},...,\varphi(X_{n+1+k},...,X_{n+m+k})\leq y_{n+k})\\
+&= \mathbb{P}(Y_{1+k}\leq y_{1+k},...,Y_{n+k}\leq y_{n+k})\\
+\end{aligned}
+\end{equation}
+即$Y_t=\varphi (X_{t+1},..,X_{t+m}),t\in\mathbb{Z}$是严平稳序列。
+\end{proofi}
+%=================================================================%
+\end{enumerate}
+
+\end{document}

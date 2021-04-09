@@ -1,0 +1,123 @@
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage{fontspec}
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+%\setmainfont{???}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{float}   %{H}
+\usepackage{booktabs}  %\toprule[1.5pt]
+\usepackage[titletoc]{appendix}
+%===================%插入代码需要的控制
+\usepackage{listings}
+\usepackage{xcolor}
+\lstset{
+	numbers=left, 
+	numberstyle= \tiny, 
+	keywordstyle= \color{ blue!70},
+	commentstyle= \color{red!50!green!50!blue!50}, 
+	frame=shadowbox, % 阴影效果
+	rulesepcolor= \color{ red!20!green!20!blue!20} ,
+	escapeinside=``, % 英文分号中可写入中文
+} 
+%===================%
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\newtheorem{theorem}{定理}
+\newtheorem{definition}{定义}
+\newtheorem*{solution}{解}
+\newtheorem{practice}{题}
+\newcommand{\Sum}[3][i]{\sum\limits_{#1=#2}^{#3}}
+\newcommand{\Int}[2]{\int_{#1}^{#2}}
+\newcommand{\Sample}[3][X]{{#1}_{#2},\dotsi ,{#1}_{#3}}
+\newcommand{\Samiid}[4][X]{{#1}_{#2},\dotsi ,{#1}_{#3}~iid\backsim {#4}}
+\newcommand{\norm}[1]{\left\Vert #1\right\Vert_{\infty}}
+\newcommand{\diff}[3]{\frac{\partial^{#3}{#1}}{\partial {#2}^{#3}}}
+\newcommand{\abs}[1]{\left| {#1}\right|}
+\newcommand{\normdis}[2]{N(#1,{#2}^2)}
+
+\title{Time Series HomeWork (3)}
+\author{钟瑜 \quad 222018314210044}
+\date{\today}
+\begin{document}
+\maketitle
+\pagestyle{plain}%设置页码
+\begin{enumerate}
+%================================================================%	
+	
+\item[1.]如果输入的序列$\left\lbrace X_t\right\rbrace $是由(3.4)定义的线性平稳序列，则从保时线性滤波器H输出的序列$\left\lbrace Y_t\right\rbrace$也是线性平稳序列。
+
+\begin{solution}
+设则从保时线性滤波器H输出的序列$\left\lbrace Y_t\right\rbrace$，其中序列$H=\left\lbrace Y_t\right\rbrace $为绝对可和的实数列,要证明其为线性平稳序列，只需证明$\mathbb{E}Y_t$为常数，自协方差函数只与时间差有关。
+
+因为$X_t=\sum^{\infty}_{j=-\infty}a_j\epsilon_{t-j},t\in\mathbb{Z}$为线性平稳序列，故$\mathbb{E}X_t=0$,因此
+\begin{equation}
+\begin{aligned}
+\sum^{\infty}_{j=-\infty}\mathbb{E}|h_jX_{t-j}|=\sum^{\infty}_{j=-\infty}|h_j|\mathbb{E}|X_{t-j}|=0<\infty
+\end{aligned}
+\end{equation}
+由测度论的推论可知，
+\begin{equation}
+\begin{aligned}
+\mathbb{E}Y_t &= \mathbb{E}(\sum_{j=-\infty}^{\infty}h_jX_{t-j}) \\
+&= \sum_{j=-\infty}^{\infty}\mathbb{E}(h_jX_{t-j})\\
+&= \sum_{j=-\infty}^{\infty}h_j\mathbb{E}(X_{t-j})\\
+&= 0
+\end{aligned}
+\end{equation}
+再由
+\begin{equation}
+\begin{aligned}
+\mathbb{E}(X_tX_s)=\sigma^2\sum_{k=-\infty}^{\infty}a_ka_{k+(t-s)}
+\end{aligned}
+\end{equation}
+可得
+\begin{equation}
+\begin{aligned}
+\sum_{j=-\infty}^{\infty}\sum_{i=-\infty}^{\infty}\mathbb{E}|h_jh_iX_{t-j}X_{s-i}|
+&=\sum_{j=-\infty}^{\infty}\sum_{i=-\infty}^{\infty}|h_jh_i|\mathbb{E}|X_{t-j}X_{s-i}|\\
+&\leq\sum_{j=-\infty}^{\infty}\sum_{i=-\infty}^{\infty}|h_jh_i|
+\sqrt{\mathbb{E}|X_{t-j}|^2|X_{s-i}|^2}\\
+&= \sum_{j=-\infty}^{\infty}\sum_{i=-\infty}^{\infty}|h_jh_i|
+\sigma^2\sum_{-\infty}^{\infty}(a_j)^2\\
+&= \sigma^2\sum_{j=-\infty}^{\infty}|h_j|^2\sum_{-\infty}^{\infty}|a_j|^2\\
+&< \infty
+\end{aligned}
+\end{equation}
+由测度论的推论可知，
+\begin{equation}
+\begin{aligned}
+\mathbb{E}Y_tY_s &= \mathbb{E}
+(\sum_{j=-\infty}^{\infty}h_jX_{t-j})(\sum_{i=-\infty}^{\infty}h_iX_{s-i}) \\
+&= \mathbb{E}(\sum_{j=-\infty}^{\infty}\sum_{i=-\infty}^{\infty}h_jh_iX_{t-j}X_{s-i})\\
+&= \sum_{j=-\infty}^{\infty}\sum_{i=-\infty}^{\infty}h_jh_i\mathbb{E}(X_{t-j}X_{s-i})\\
+&= \sum_{j=-\infty}^{\infty}\sum_{i=-\infty}^{\infty}h_jh_i\sigma^2
+\sum_{k=-\infty}^{\infty}a_ka_{k+(t-s)}\\
+&= \sigma^2 \sum_{j=-\infty}^{\infty}h_j^2\sum_{k=-\infty}^{\infty}a_ka_{k+(t-s)}
+\end{aligned}
+\end{equation}
+这就说明$\left\lbrace Y_t\right\rbrace$是平稳序列，有自协方差函数
+\begin{equation}
+\begin{aligned}
+\gamma_{l}=\sigma^2 \sum_{j=-\infty}^{\infty}h_j^2\sum_{k=-\infty}^{\infty}a_ka_{k+l},l\in\mathbb{Z}
+\end{aligned}
+\end{equation}
+\end{solution}
+
+\item[2.]证明绝对可和必能推出平方可和。
+\begin{solution}
+且考虑单边$$\sum_{j=1}^{\infty}|a_j|<\infty$$
+那么$$\lim_{j\to\infty}|a_j|=0$$
+$$\Rightarrow\lim\frac{a_j^2}{|a_j|}=0$$
+根据正项级数比较原则的极限形式可知$$\sum_{j=1}^{\infty}a_j^2<\infty；$$
+同理可知由$$\sum_{j=-\infty}^{\infty}|a_j|<\infty$$可推得$$\sum_{j=-\infty}^{\infty}a_j^2<\infty。$$
+\end{solution}
+%=================================================================%
+\end{enumerate}
+
+\end{document}
