@@ -1,0 +1,76 @@
+\contentsline {part}{I\hspace {1em}时间序列预处理}{4}{part.1}%
+\contentsline {chapter}{\numberline {1}创建时间序列}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}白噪声示例}{5}{section.1.1}%
+\contentsline {section}{\numberline {1.2}手动录入}{7}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}矩阵输入}{7}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}行输入}{8}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}列输入}{8}{subsection.1.2.3}%
+\contentsline {section}{\numberline {1.3}文件导入}{8}{section.1.3}%
+\contentsline {section}{\numberline {1.4}文件的导出}{9}{section.1.4}%
+\contentsline {section}{\numberline {1.5}产生样本}{9}{section.1.5}%
+\contentsline {section}{\numberline {1.6}生成新序列}{9}{section.1.6}%
+\contentsline {chapter}{\numberline {2}序列的简单统计量}{10}{chapter.2}%
+\contentsline {chapter}{\numberline {3}纯随机性检验}{11}{chapter.3}%
+\contentsline {section}{\numberline {3.1}纯随机序列的定义}{11}{section.3.1}%
+\contentsline {section}{\numberline {3.2}白噪声序列的性质}{12}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}纯随机性}{12}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}方差齐性}{12}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}纯随机性检验}{13}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}假设条件}{14}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}检验统计量}{14}{subsection.3.3.2}%
+\contentsline {part}{II\hspace {1em}平稳时间序列分析}{16}{part.2}%
+\contentsline {chapter}{\numberline {4}AR models}{17}{chapter.4}%
+\contentsline {section}{\numberline {4.1}建模理论}{17}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}偏相关系数}{17}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}序贯t规则}{17}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}信息准则}{18}{subsection.4.1.3}%
+\contentsline {subsection}{\numberline {4.1.4}模型检验}{18}{subsection.4.1.4}%
+\contentsline {subsubsection}{\numberline {4.1.4.1}残差的白噪声检验}{19}{subsubsection.4.1.4.1}%
+\contentsline {subsection}{\numberline {4.1.5}建模:参数估计}{21}{subsection.4.1.5}%
+\contentsline {subsubsection}{\numberline {4.1.5.1}yule-walker估计}{21}{subsubsection.4.1.5.1}%
+\contentsline {subsubsection}{\numberline {4.1.5.2}最小二乘估计}{22}{subsubsection.4.1.5.2}%
+\contentsline {subsubsection}{\numberline {4.1.5.3}极大似然估计}{23}{subsubsection.4.1.5.3}%
+\contentsline {section}{\numberline {4.2}建模步骤}{24}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}数据预处理}{24}{subsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.1.1}取对数}{24}{subsubsection.4.2.1.1}%
+\contentsline {subsubsection}{\numberline {4.2.1.2}做差分}{25}{subsubsection.4.2.1.2}%
+\contentsline {subsubsection}{\numberline {4.2.1.3}缺失值插值}{25}{subsubsection.4.2.1.3}%
+\contentsline {subsection}{\numberline {4.2.2}平稳性的判定}{25}{subsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.1}单位根检验}{25}{subsubsection.4.2.2.1}%
+\contentsline {subsection}{\numberline {4.2.3}模型选择:画时序图,acf,pacf,估计阶数}{26}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.4}模型定阶和参数估计}{27}{subsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.4.1}关于自动定阶:auto.arima()}{29}{subsubsection.4.2.4.1}%
+\contentsline {subsection}{\numberline {4.2.5}模型检验}{31}{subsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.5.1}残差的白噪声检验}{31}{subsubsection.4.2.5.1}%
+\contentsline {subsubsection}{\numberline {4.2.5.2}异方差检验}{31}{subsubsection.4.2.5.2}%
+\contentsline {subsection}{\numberline {4.2.6}模型表达}{32}{subsection.4.2.6}%
+\contentsline {subsection}{\numberline {4.2.7}预测}{32}{subsection.4.2.7}%
+\contentsline {section}{\numberline {4.3}示例2}{32}{section.4.3}%
+\contentsline {section}{\numberline {4.4}示例3}{36}{section.4.4}%
+\contentsline {chapter}{\numberline {5}MA models}{41}{chapter.5}%
+\contentsline {section}{\numberline {5.1}例子}{41}{section.5.1}%
+\contentsline {section}{\numberline {5.2}几个重要的R函数(ldf 236)}{42}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}从自协方差函数利用递推方法估计模型参数的函数}{42}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}模拟MA 序列的函数}{43}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}绘制MA 理论谱密度曲线的函数}{44}{subsection.5.2.3}%
+\contentsline {chapter}{\numberline {6}ARMA models}{45}{chapter.6}%
+\contentsline {section}{\numberline {6.1}几个R函数}{45}{section.6.1}%
+\contentsline {subsection}{\numberline {6.1.1}给定ARMA系数的ARMA理论谱}{45}{subsection.6.1.1}%
+\contentsline {subsection}{\numberline {6.1.2}模拟ARMA(p, q)模型}{46}{subsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.1.3}ARMA模型的Wold系数}{47}{subsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.1.4}利用Wold展开计算ARMA模型的理论自协方差函数}{47}{subsection.6.1.4}%
+\contentsline {subsection}{\numberline {6.1.5}求解给定自协方差函数的ARMA参数}{48}{subsection.6.1.5}%
+\contentsline {chapter}{\numberline {7}建模}{49}{chapter.7}%
+\contentsline {part}{III\hspace {1em}多元时间序列分析}{50}{part.3}%
+\contentsline {chapter}{\numberline {8}单位根检验}{51}{chapter.8}%
+\contentsline {section}{\numberline {8.1}DF检验}{51}{section.8.1}%
+\contentsline {subsection}{\numberline {8.1.1}DF统计量}{51}{subsection.8.1.1}%
+\contentsline {subsection}{\numberline {8.1.2}DF检验的等价表达}{53}{subsection.8.1.2}%
+\contentsline {subsection}{\numberline {8.1.3}DF检验的三种类型}{53}{subsection.8.1.3}%
+\contentsline {subsubsection}{\numberline {8.1.3.1}无漂移项自回归过程}{53}{subsubsection.8.1.3.1}%
+\contentsline {subsubsection}{\numberline {8.1.3.2}带漂移项自回归过程}{53}{subsubsection.8.1.3.2}%
+\contentsline {subsubsection}{\numberline {8.1.3.3}带趋势项回归过程}{56}{subsubsection.8.1.3.3}%
+\contentsline {subsection}{\numberline {8.1.4}DF检验}{58}{subsection.8.1.4}%
+\contentsline {section}{\numberline {8.2}ADF检验}{60}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}ADF检验的原理}{60}{subsection.8.2.1}%
+\contentsline {subsection}{\numberline {8.2.2}ADF检验的三种类型}{61}{subsection.8.2.2}%
